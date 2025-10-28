@@ -51,7 +51,7 @@ const Hero = () => {
               onClick={scrollToServices}
               size="lg"
               variant="outline"
-              className="border-2 border-white text-white hover:bg-white hover:text-primary text-lg px-8"
+              className="border-2 border-white bg-white/10 backdrop-blur-sm text-white hover:bg-white hover:text-primary text-lg px-8"
             >
               Our Services
             </Button>

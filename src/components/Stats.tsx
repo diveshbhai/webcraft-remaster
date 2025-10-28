@@ -3,12 +3,12 @@ import { Award, TrendingUp, Clock, Users } from "lucide-react";
 const stats = [
   {
     icon: TrendingUp,
-    value: "5+",
+    value: "8+",
     label: "Years Experience",
   },
   {
     icon: Award,
-    value: "500+",
+    value: "1000+",
     label: "Successful Deliveries",
   },
   {
