@@ -45,19 +45,19 @@ const Navbar = () => {
           <div className="hidden md:flex items-center gap-8">
             <button
               onClick={() => scrollToSection("home")}
-              className="text-foreground hover:text-primary transition-colors font-medium"
+              className="text-foreground hover:text-primary transition-colors font-medium drop-shadow-sm"
             >
               Home
             </button>
             <button
               onClick={() => scrollToSection("services")}
-              className="text-foreground hover:text-primary transition-colors font-medium"
+              className="text-foreground hover:text-primary transition-colors font-medium drop-shadow-sm"
             >
               Services
             </button>
             <button
               onClick={() => scrollToSection("about")}
-              className="text-foreground hover:text-primary transition-colors font-medium"
+              className="text-foreground hover:text-primary transition-colors font-medium drop-shadow-sm"
             >
               About
             </button>

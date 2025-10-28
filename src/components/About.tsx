@@ -38,7 +38,7 @@ const About = () => {
                   <Users className="h-16 w-16 text-primary" />
                 </div>
                 <h3 className="text-2xl font-bold mb-2">
-                  Amit Tharwani & Gautam Singh
+                  Amit Tharwani & Gautam Sinh
                 </h3>
                 <p className="text-muted-foreground mb-3 font-semibold">
                   Founders & Managing Directors
