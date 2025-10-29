@@ -21,8 +21,8 @@ const Footer = () => {
               +91 9924848039
             </a>
             <span className="text-primary-foreground/40">|</span>
-            <a href="mailto:jnlogistics2506@gmail.com" className="hover:text-secondary transition-colors">
-              jnlogistics2506@gmail.com
+            <a href="mailto:jnlogistics48@gmail.com" className="hover:text-secondary transition-colors">
+              jnlogistics48@gmail.com
             </a>
           </div>
           <div className="text-sm text-primary-foreground/60 text-center">

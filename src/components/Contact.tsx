@@ -23,14 +23,14 @@ const contactInfo = [
   {
     icon: Mail,
     title: "Email",
-    details: ["jnlogistics2506@gmail.com"],
-    links: ["mailto:jnlogistics2506@gmail.com"],
+    details: ["jnlogistics48@gmail.com"],
+    links: ["mailto:jnlogistics48@gmail.com"],
   },
   {
     icon: MapPin,
     title: "Address",
     details: ["E-201, Narayan Avenue,", "Bhat, Gandhinagar - 382428"],
-    links: [],
+    links: ["https://www.google.com/maps/search/?api=1&query=E-201,+Narayan+Avenue,+Bhat,+Gandhinagar+-+382428"],
   },
 ];
 
