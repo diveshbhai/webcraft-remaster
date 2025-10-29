@@ -1,6 +1,6 @@
-import truck1 from "@/assets/truck-1.jpg";
-import truck2 from "@/assets/truck-2.jpg";
-import truck3 from "@/assets/truck-3.jpg";
+import truck1 from "@/assets/truck-1.png";
+import truck2 from "@/assets/truck-2.png";
+import truck3 from "@/assets/truck-3.png";
 import { Card } from "@/components/ui/card";
 
 const Fleet = () => {
