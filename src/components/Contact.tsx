@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Phone, Mail, MapPin, Send, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,6 +11,24 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
+
+const formSchema = z.object({
+  name: z.string().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
+  email: z.string().email("Invalid email address").max(255, "Email must be less than 255 characters"),
+  phone: z.string().min(1, "Phone is required").max(20, "Phone must be less than 20 characters"),
+  service: z.string().min(1, "Please select a service"),
+  message: z.string().min(1, "Message is required").max(1000, "Message must be less than 1000 characters"),
+});
 
 const contactInfo = [
   {
@@ -42,16 +59,25 @@ const contactInfo = [
 
 const Contact = () => {
   const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      service: "",
+      message: "",
+    },
+  });
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    const form = e.currentTarget;
-    const formData = new FormData(form);
-
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
+      const formData = new FormData();
+      Object.entries(values).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+
       const response = await fetch("https://formspree.io/f/xpwaqjko", {
         method: "POST",
         body: formData,
@@ -75,8 +101,6 @@ const Contact = () => {
         description: "Please try again or contact us directly.",
         variant: "destructive",
       });
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
@@ -137,74 +161,103 @@ const Contact = () => {
               <CardTitle className="text-2xl">Send Us A Message</CardTitle>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <Input
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
                       name="name"
-                      placeholder="Your Name"
-                      required
-                      className="h-12"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input placeholder="Your Name" className="h-12" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
-                  </div>
-                  <div>
-                    <Input
+                    <FormField
+                      control={form.control}
                       name="email"
-                      type="email"
-                      placeholder="Your Email"
-                      required
-                      className="h-12"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input type="email" placeholder="Your Email" className="h-12" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
                   </div>
-                </div>
 
-                <div className="grid md:grid-cols-2 gap-4">
-                  <div>
-                    <Input
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
                       name="phone"
-                      type="tel"
-                      placeholder="Your Phone"
-                      required
-                      className="h-12"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input type="tel" placeholder="Your Phone" className="h-12" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="service"
+                      render={({ field }) => (
+                        <FormItem>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger className="h-12">
+                                <SelectValue placeholder="Service Type" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="temperature-controlled">
+                                Temperature Controlled Transport
+                              </SelectItem>
+                              <SelectItem value="emergency">Emergency Delivery</SelectItem>
+                              <SelectItem value="contract">Contract Services</SelectItem>
+                              <SelectItem value="other">Other</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
                   </div>
-                  <div>
-                    <Select name="service" required>
-                      <SelectTrigger className="h-12">
-                        <SelectValue placeholder="Service Type" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="temperature-controlled">
-                          Temperature Controlled Transport
-                        </SelectItem>
-                        <SelectItem value="emergency">Emergency Delivery</SelectItem>
-                        <SelectItem value="contract">Contract Services</SelectItem>
-                        <SelectItem value="other">Other</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
 
-                <div>
-                  <Textarea
+                  <FormField
+                    control={form.control}
                     name="message"
-                    placeholder="Your Message / Requirements"
-                    required
-                    rows={6}
-                    className="resize-none"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Your Message / Requirements"
+                            rows={6}
+                            className="resize-none"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                </div>
 
-                <Button
-                  type="submit"
-                  size="lg"
-                  className="w-full bg-gradient-primary hover:opacity-90 transition-opacity"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? "Sending..." : "Send Message"}
-                  <Send className="ml-2 h-5 w-5" />
-                </Button>
-              </form>
+                  <Button
+                    type="submit"
+                    size="lg"
+                    className="w-full bg-gradient-primary hover:opacity-90 transition-opacity"
+                    disabled={form.formState.isSubmitting}
+                  >
+                    {form.formState.isSubmitting ? "Sending..." : "Send Message"}
+                    <Send className="ml-2 h-5 w-5" />
+                  </Button>
+                </form>
+              </Form>
             </CardContent>
           </Card>
         </div>
