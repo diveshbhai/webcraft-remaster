@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Phone, Mail, MapPin, Send } from "lucide-react";
+import { Phone, Mail, MapPin, Send, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -31,6 +31,12 @@ const contactInfo = [
     title: "Address",
     details: ["E-201, Narayan Avenue,", "Bhat, Gandhinagar - 382428"],
     links: ["https://www.google.com/maps/search/?api=1&query=E-201,+Narayan+Avenue,+Bhat,+Gandhinagar+-+382428"],
+  },
+  {
+    icon: FileText,
+    title: "GST Number",
+    details: ["24AHOPT2830N1ZT"],
+    links: [""],
   },
 ];
 
