@@ -12,6 +12,9 @@ const Footer = () => {
           <p className="text-primary-foreground/80 text-center">
             Professional Refrigerated Van Services | Cold Chain Transportation
           </p>
+          <p className="text-primary-foreground/80 text-sm">
+            GST: 24AHOPT2830N1ZT
+          </p>
           <div className="flex flex-wrap justify-center gap-6 text-sm">
             <a href="tel:+919924848030" className="hover:text-secondary transition-colors">
               +91 9924848030

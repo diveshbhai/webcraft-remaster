@@ -127,7 +127,7 @@ export default {
         "fade-in": "fade-in 0.6s ease-out",
         "slide-up": "slide-up 0.6s ease-out",
         "scale-in": "scale-in 0.5s ease-out",
-        "scroll-left": "scroll-left 20s linear infinite",
+        "scroll-left": "scroll-left 12s linear infinite",
       },
       backgroundImage: {
         'gradient-primary': 'var(--gradient-primary)',

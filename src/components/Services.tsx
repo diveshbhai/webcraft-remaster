@@ -60,7 +60,7 @@ const Services = () => {
           </Card>
         </div>
 
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-5xl mx-auto mb-16">
           <Card className="border-2 shadow-lg bg-gradient-primary text-primary-foreground">
             <CardHeader>
               <CardTitle className="text-2xl md:text-3xl text-center mb-4">
@@ -80,6 +80,39 @@ const Services = () => {
                     <span className="text-lg font-medium">{feature}</span>
                   </div>
                 ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="max-w-5xl mx-auto">
+          <Card className="border-2 shadow-lg">
+            <CardHeader>
+              <CardTitle className="text-2xl md:text-3xl text-center mb-4">
+                Dry Goods Transportation
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-lg text-center text-muted-foreground mb-6">
+                In addition to our specialized refrigerated transportation, we also provide reliable dry goods transportation services for non-temperature sensitive cargo.
+              </p>
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
+                  <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                  <span className="text-foreground">General Cargo Transportation</span>
+                </div>
+                <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
+                  <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                  <span className="text-foreground">Packaged Goods Transport</span>
+                </div>
+                <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
+                  <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                  <span className="text-foreground">Interstate Dry Transport</span>
+                </div>
+                <div className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
+                  <Check className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                  <span className="text-foreground">Ambient Temperature Cargo</span>
+                </div>
               </div>
             </CardContent>
           </Card>
