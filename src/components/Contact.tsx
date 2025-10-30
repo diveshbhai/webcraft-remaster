@@ -1,4 +1,4 @@
-import { Phone, Mail, MapPin, Send, FileText } from "lucide-react";
+import { Phone, Mail, MapPin, Send, FileText, Thermometer } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -10,6 +10,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,15 +21,27 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { supabase } from "@/integrations/supabase/client";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
   email: z.string().email("Invalid email address").max(255, "Email must be less than 255 characters"),
   phone: z.string().min(1, "Phone is required").max(20, "Phone must be less than 20 characters"),
   service: z.string().min(1, "Please select a service"),
+  goodsType: z.enum(["dry", "cold"], { required_error: "Please select goods type" }),
+  temperature: z.string().optional(),
   message: z.string().min(1, "Message is required").max(1000, "Message must be less than 1000 characters"),
+}).refine((data) => {
+  if (data.goodsType === "cold" && !data.temperature) {
+    return false;
+  }
+  return true;
+}, {
+  message: "Temperature is required for cold goods",
+  path: ["temperature"],
 });
 
 const contactInfo = [
@@ -67,35 +81,31 @@ const Contact = () => {
       email: "",
       phone: "",
       service: "",
+      goodsType: "dry",
+      temperature: "",
       message: "",
     },
   });
 
+  const goodsType = form.watch("goodsType");
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const formData = new FormData();
-      Object.entries(values).forEach(([key, value]) => {
-        formData.append(key, value);
+      const { data, error } = await supabase.functions.invoke('send-contact-email', {
+        body: values,
       });
 
-      const response = await fetch("https://formspree.io/f/xpwaqjko", {
-        method: "POST",
-        body: formData,
-        headers: {
-          Accept: "application/json",
-        },
-      });
-
-      if (response.ok) {
-        toast({
-          title: "Message sent successfully!",
-          description: "We'll get back to you as soon as possible.",
-        });
-        form.reset();
-      } else {
-        throw new Error("Form submission failed");
+      if (error) {
+        throw error;
       }
-    } catch (error) {
+
+      toast({
+        title: "Message sent successfully!",
+        description: "We'll get back to you as soon as possible.",
+      });
+      form.reset();
+    } catch (error: any) {
+      console.error("Error sending message:", error);
       toast({
         title: "Error sending message",
         description: "Please try again or contact us directly.",
@@ -228,6 +238,60 @@ const Contact = () => {
                       )}
                     />
                   </div>
+
+                  <FormField
+                    control={form.control}
+                    name="goodsType"
+                    render={({ field }) => (
+                      <FormItem className="space-y-3">
+                        <FormLabel className="text-base font-semibold">Goods Type</FormLabel>
+                        <FormControl>
+                          <RadioGroup
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                            className="flex gap-6"
+                          >
+                            <div className="flex items-center space-x-2">
+                              <RadioGroupItem value="dry" id="dry" />
+                              <Label htmlFor="dry" className="cursor-pointer font-normal">
+                                Dry Goods
+                              </Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                              <RadioGroupItem value="cold" id="cold" />
+                              <Label htmlFor="cold" className="cursor-pointer font-normal">
+                                Cold Goods (Refrigerated)
+                              </Label>
+                            </div>
+                          </RadioGroup>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {goodsType === "cold" && (
+                    <FormField
+                      control={form.control}
+                      name="temperature"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="flex items-center gap-2">
+                            <Thermometer className="h-4 w-4" />
+                            Required Temperature
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="e.g., -18°C, 2-8°C, or specify your requirement"
+                              className="h-12"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )}
 
                   <FormField
                     control={form.control}
