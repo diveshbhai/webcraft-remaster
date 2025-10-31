@@ -91,12 +91,31 @@ const Contact = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const { data, error } = await supabase.functions.invoke('send-contact-email', {
+      // First, save to database
+      const { error: dbError } = await supabase
+        .from("contact_submissions")
+        .insert({
+          name: values.name,
+          email: values.email,
+          phone: values.phone,
+          service: values.service,
+          goods_type: values.goodsType,
+          temperature: values.temperature,
+          message: values.message,
+        });
+
+      if (dbError) {
+        throw dbError;
+      }
+
+      // Then send email
+      const { error: emailError } = await supabase.functions.invoke("send-contact-email", {
         body: values,
       });
 
-      if (error) {
-        throw error;
+      if (emailError) {
+        console.error("Email error:", emailError);
+        // Don't throw - form submission was saved
       }
 
       toast({
