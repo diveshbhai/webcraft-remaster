@@ -38,7 +38,7 @@ const About = () => {
                   <Users className="h-16 w-16 text-primary" />
                 </div>
                 <h3 className="text-2xl font-bold mb-2">
-                  Amit Tharwani & Gautam Sinh Vaghela
+                  Amit Tharwani & GautamSinh Vaghela
                 </h3>
                 <p className="text-muted-foreground mb-3 font-semibold">
                   Founders & Managing Directors
@@ -62,7 +62,7 @@ const About = () => {
               Established in the year 2017, JN Logistics has garnered a respectable name for itself in the domain of providing temperature controlled reefer trucks services to its various clients ranging from Amul, Food Asia, Snowman Logistics, etc. Over the years, we have grown into a vast organization.
             </p>
             <p className="text-lg text-muted-foreground mb-6 leading-relaxed">
-              All the operations are handled by Gautam Sinh Vaghela, who is having more than 5 years of experience in logistics industry. Our head office is located at Bhat near by Gandhinagar, capital of Gujarat.
+              All the operations are handled by GautamSinh Vaghela, who is having more than 5 years of experience in logistics industry. Our head office is located at Bhat near by Gandhinagar, capital of Gujarat.
             </p>
             <p className="text-lg text-muted-foreground leading-relaxed">
               We provide realtime monitoring of your goods along with location of in-transit truck as well as temperature of the container. Always on the cusp of innovation, we provide solution to Real-time problems for dairy sector, food sector, hospitality sector & pharmacy sector using temperature controlled system and highly accurate tracking system.
