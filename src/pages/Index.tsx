@@ -17,12 +17,12 @@ const Index = () => {
       <main>
         <Hero />
         <Services />
+        <Contact />
         <Stats />
         <About />
         <Clients />
         <ServiceCoverage />
         <Fleet />
-        <Contact />
       </main>
       <Footer />
       <WhatsAppButton />
